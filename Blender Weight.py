@@ -1,11 +1,7 @@
 bl_info = {
-    "name": "W3D Gold",
-    "author"	: "Vjaceslav Tissen",
-    "description":"Mesh Weight Calculator Addon",
-    "version" : (1,0,0),
-    "blender" : (4,0,0),
-    "location" : "Right 3d View Panel -> W3D Gold",
-    "category" : "Object",
+    "name": "Mesh Weight Calculator Addon",
+    "blender": (3, 0, 0),
+    "category": "Object",
 }
 
 import bpy
@@ -64,7 +60,7 @@ class DensityCalculatorProperties(bpy.types.PropertyGroup):
         name="Material",
         description="Choose the material",
         items=[
-            ('19.33', "Gold : 19.32 g/cm³", "eee"),
+            ('19.32', "Gold : 19.32 g/cm³", ""),
             ('17.80', "Gold : 17.80 g/cm³", ""),
             ('15.42', "Gold : 15.42 g/cm³", ""),
             ('13.5336', "Mercury : 13.5336 g/cm³", ""),
@@ -151,7 +147,7 @@ class OBJECT_PT_DensityCalculatorPanel(bpy.types.Panel):
     bl_label = "Density and Weight "
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = 'W3D Gold'
+    bl_category = 'W3d Gold'
 
     def draw(self, context):
         layout = self.layout
@@ -177,7 +173,7 @@ class OBJECT_PT_DensityCalculatorPanel(bpy.types.Panel):
                 layout.prop(props, "float_value")
                 layout.label(text=f"Object: {obj.name}")   
                 row = layout.row()         
-                row.label(text="Weight: {:.2f} g".format(Weight(den)))
+                row.label(text="Weight: {:.2f} g".format(All_Weight(den,context)))
                 dimensions = get_dimensions(obj)
                 width, length, height = dimensions
                 row.label(text="Width: {:.2f} mm".format(width))

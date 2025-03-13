@@ -289,7 +289,7 @@ def curve_obj(context):
 
 
 class VIEW3D_PIE_template(Menu):
-    bl_label = "Pie Menu"
+    bl_label = "woow3d.com"
     bl_idname = "VIEW3D_PIE_template"
 
     def draw(self, context):
@@ -346,7 +346,7 @@ class WM_OT_print_number(bpy.types.Operator):
 # عامل (Operator) لفتح القائمة النقطية
 class OBJECT_OT_call_pie_menu(bpy.types.Operator):
     bl_idname = "wm.call_pie_menu"
-    bl_label = "Call Pie Menu"
+    bl_label = "woow3d.com"
 
     def execute(self, context):
         bpy.ops.wm.call_menu_pie(name="VIEW3D_PIE_template")

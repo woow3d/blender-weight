@@ -281,6 +281,30 @@ def curve_obj(context):
 
 
 
+def Shrinkwrap(context):
+    # الحصول على جميع الكائنات المحددة
+    selected_objects = bpy.context.selected_objects
+
+    # الحصول على الكائن النشط (الهدف)
+    active_object = bpy.context.view_layer.objects.active
+
+    # التأكد من وجود كائنين على الأقل
+    if len(selected_objects) > 1 and active_object:
+        # اختيار أول كائن محدد غير نشط
+        selected_object = next((obj for obj in selected_objects if obj != active_object), None)
+
+        if selected_object:
+            # إضافة معدل Shrinkwrap
+            modifier = selected_object.modifiers.new(name="Shrinkwrap", type='SHRINKWRAP')
+            modifier.target = active_object  # تعيين الهدف
+            modifier.wrap_method = 'NEAREST_SURFACEPOINT'  # ضبط الالتفاف إلى أقرب نقطة سطح
+
+            print(f"تمت إضافة معدل Shrinkwrap إلى {selected_object.name}, الهدف: {active_object.name}")
+        else:
+            print("لم يتم العثور على كائن محدد غير الكائن النشط.")
+    else:
+        print("يجب تحديد كائنين على الأقل، أحدهما يجب أن يكون نشطًا.")
+
 
 
 
@@ -299,14 +323,13 @@ class VIEW3D_PIE_template(Menu):
         # ستة خيارات في القائمة النقطية
         pie.operator("wm.print_number", text="Solidify", icon='MOD_SOLIDIFY').number = 1
         pie.operator("wm.print_number", text="Curve", icon='OUTLINER_OB_CURVE').number = 2
-        pie.operator("wm.print_number", text="Join", icon='SNAP_VOLUME').number = 3
+        #pie.operator("wm.print_number", text="Join", icon='SNAP_VOLUME').number = 3
         pie.operator("wm.print_number", text="Split", icon='FACE_MAPS').number = 4
         pie.operator("wm.print_number", text="Boolean", icon='MOD_BOOLEAN').number = 5
         pie.operator("wm.print_number", text="to Curve",icon='MOD_CURVE').number = 6
         pie.operator("wm.print_number", text="Mrror",icon='MOD_MIRROR').number = 7
-        
         pie.operator("wm.print_number", text="Curve Array",icon='PARTICLE_POINT').number = 8
-
+        pie.operator("wm.print_number", text="Shrinkwrap",icon='SNAP_FACE_NEAREST').number = 9
 # عامل (Operator) لطباعة الرقم
 class WM_OT_print_number(bpy.types.Operator):
     bl_idname = "wm.print_number"
@@ -339,7 +362,9 @@ class WM_OT_print_number(bpy.types.Operator):
         elif bike == 7:
             mrror(name,context)  
         elif bike ==8:            
-           Arry_Fit(context)       
+           Arry_Fit(context)
+        elif bike ==9:   
+            Shrinkwrap(context)       
         
         return {'FINISHED'}
 
